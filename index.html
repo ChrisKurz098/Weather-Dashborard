@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
-    <link rel="stylescheet" href="./assets/css/styles.css"/>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
 </head>
+
 <body>
-    
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+    <main>
+        <!-------------------------- Div that hold all search query elements --------------------->
+        <div id="searchContainer" class="border">
+            <form class='searchForm border'>
+                <label for="searchBox">Search for a City:</label>
+                <input name="searchBox" type="text" id="inputBox">
+                <button type="submit" class="btn">Search</button>
+            </form>
+            <!--------------------->
+            <div id="searchHistory"  class="border">
+                <ol class = "list">
+                    <li>Prev Searches Go Here</li>
+                </ol>
+            </div>
+
+        </div>
+        <!---------------------------------------------------------------------------------------->
+
+        <!---------------------------Result Container Div-------------------------------------------->
+        <div id="resultsContainer" class="border">
+            <div class = "resultsDisplay border">
+                <h2> Put City Name Here</h2>
+                <div class="resultsContainer border">
+                    Put Results here
+                </div>
+            </div>
+            <!------------------->
+            <div class="fiveDay">
+                <h2>Five Day Forcast</h2>
+                <div class = "fiveDayContainer border">
+                    Place Dynamiclly created forcasts
+                </div>
+            </div>
+        </div>
+
+    </main>
+
     <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
