@@ -1,6 +1,6 @@
 
 function main() {
-//----------------------------------------------------------INIT PAGE-----------------------------------------//
+    //----------------------------------------------------------INIT PAGE--------------------------------------------------------//
     const searchFormEl = document.querySelector(".searchForm");
     const searchInputEl = document.querySelector(".inputBox");
     const listEl = document.querySelector(".list")
@@ -14,10 +14,10 @@ function main() {
     // load the data from localStorage
     searchHistory = JSON.parse(localStorage.getItem("searches"));
     updateSearchList(searchHistory);
-//----------------------------------------------------------------------------------------------------------//
+    //----------------------------------------------------------------------------------------------------------//
 
 
-            //-------------------------Get the value from the input--------------------------------//
+    //---------------------------------------------------------INPUT HANDELING---------------------------------------------------//
     function getQuery(event) {
         event.preventDefault();
         let query = searchInputEl.value.trim();
@@ -26,12 +26,12 @@ function main() {
             searchInputEl.value = "";
             console.log("The query is: ", query);
 
-            //runs the fetch request
-            fetchSearch(query);
+            //runs the convert query to lon/lat
+            convertQuery(query);
         }
     }
 
-             //--------------------Logs the search into the prev search results array---------------------//
+    //--------------------Logs the search into the prev search results array---------------------//
     function logSearch(search) {
         //if the current query isnt in the past search history
         if (searchHistory.every((currentValue) => currentValue !== search)) {
@@ -47,7 +47,7 @@ function main() {
             updateSearchList(searchHistory);
         }
     }
-            //----------------------------Updates the list of prev searches dynamically---------------------//
+    //----------------------------Updates the list of prev searches dynamically---------------------//
     function updateSearchList(array) {
         //while there is a child element
         while (listEl.firstChild) {
@@ -67,23 +67,51 @@ function main() {
         }
 
     }
-            ///-----------------------if a prev search list is clicked run a fetch for that list items textContent-----------------//
+    ///-----------------------if a prev search list is clicked run a fetch for that list items textContent-----------------//
     function getPrevSearch(event) {
         itemText = event.target.textContent.trim()
         //if there is text, run a fetch for text
         if (itemText) {
-            fetchSearch(itemText);
+            convertQuery(itemText);
         }
     }
 
 
-///--------------------------------------------------------------FETCH STARTS HERE---------------------------------------------///
-    function fetchSearch(query) {
-        console.log("Fetch request for:", query);
 
-        
+    ///--------------------------------------------------------------FETCH STARTS HERE---------------------------------------------///
+    function convertQuery(query) {
+        let apiURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
+        fetch(apiURL).then(function (response) {
+            if (response.ok) {
+                console.log('response: ', response);
+                response.json().then(function (data) {
+                    //Check if data has info
+                    if (data.length) {
+                        //save the query since it is valid
+                        let save = data[0].name + ',' + data[0].state + ',' + data[0].country;
+                        logSearch(save);
+                        console.log(data);
+                        console.log('Lon: ', data[0].lon);
+                        console.log('Lat: ', data[0].lat);
+                    }
+                    else {
+                        console.log("Not a valid city name");
+                    }
+
+                });
+                
+            }
+        });
+
+    }
+
+
+
+    function fetchSearch(lat, lon) {
+        console.log("Fetch request for:", query);
+        apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=e1e7eafa5c756ed866504aaf6f3cb529"
         //we will want to log the result after its resquest is successfull but for now we will just display it on click
-        logSearch(query);
+
     }
 
     //----Event Listeners---//
