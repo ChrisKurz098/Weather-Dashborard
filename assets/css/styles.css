@@ -1,3 +1,8 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
 .border {
     margin: 6px;
     padding: 6px;
@@ -5,4 +10,23 @@
 }
 .list {
     list-style-type: none;
+}
+
+.hoverHighlight{
+    background-color: blanchedalmond;
+}
+.hoverHighlight:hover{
+    background-color: rgb(209, 180, 136);
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-even{
+    flex: 1;
+}
+.col-full{
+    flex: 100%;
 }

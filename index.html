@@ -13,13 +13,13 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main>
+    <main class = "row">
         <!-------------------------- Div that hold all search query elements --------------------->
-        <div id="searchContainer" class="border">
-            <form class='searchForm border'>
-                <label for="searchBox">Search for a City:</label>
-                <input name="searchBox" type="text" class="inputBox">
-                <button type="submit" class="btn">Search</button>
+        <div id="searchContainer" class="col-even border">
+            <form class='searchForm row border'>
+                <label for="searchBox" class="col-full">Search for a City:</label>
+                <input name="searchBox" type="text" class="inputBox col-full">
+                <button type="submit" class="btn col-full">Search</button>
             </form>
             <!--------------------->
             <div id="searchHistory"  class="border">
@@ -32,7 +32,7 @@
         <!---------------------------------------------------------------------------------------->
 
         <!---------------------------Result Container Div-------------------------------------------->
-        <div id="resultsContainer" class="border">
+        <div id="resultsContainer" class="col-even border">
             <div class = "resultsDisplay border">
                 <h2> Put City Name Here</h2>
                 <div class="resultsContainer border">
