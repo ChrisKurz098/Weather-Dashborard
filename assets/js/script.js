@@ -5,6 +5,7 @@ function main() {
     const searchInputEl = document.querySelector(".inputBox");
     const listEl = document.querySelector(".list")
     const currentListEl = document.querySelector("#currentList");
+    const fiveDayEl = document.querySelector(".fiveDayContainer");
     let searchHistory = ["", "", "", "", ""];
 
     //check if any prev searchs
@@ -111,8 +112,57 @@ function main() {
         currentListEl.append(currentWindEl);
         currentListEl.append(currentHumEl);
         currentListEl.append(currentUviEl);
-
     }
+
+    //--------Update DOM to show five day forcast-----//
+    function forcastDisplay(data) {
+        while (fiveDayEl.firstChild) {
+            //remove the child element until none left
+            fiveDayEl.removeChild(fiveDayEl.firstChild)
+        }
+
+        for (let i = 1; i < 5; i++) {
+            //convert the date
+            let dateInfo = new Date((data.daily[i].dt) * 1000);
+            let theDate = (dateInfo.getMonth() + 1) + "/" + (dateInfo.getUTCDate()) + "/" + (dateInfo.getUTCFullYear());
+            //Create amd populate ol
+            const ol = document.createElement("ol");
+            ol.classList = "list border col-even";
+            //now create new elements/ update list
+            let dayEl = document.createElement("li")
+            dayEl.textContent = theDate;
+
+            let iconEl = document.createElement ("li");
+            iconEl.innerHTML = '<i class = "owf owf-' + (data.daily[i].weather[0].id) + '"></i>'
+            
+
+            let tempEl = document.createElement("li")
+            tempEl.textContent = "min/max: " + Math.round(data.daily[i].temp.min) + "\u00B0F / " + Math.round(data.daily[i].temp.min) + "\u00B0F";
+            
+
+            let windEl = document.createElement("li")
+            windEl.textContent = "Wind: " + data.daily[i].wind_speed + " MPH";
+            
+
+            let humEl = document.createElement("li")
+            humEl.textContent = "Humidity: " + data.daily[i].humidity + " %";
+           
+
+            let uviEl = document.createElement("li")
+            uviEl.textContent = "UVI Index: " + data.daily[i].uvi;
+            
+            //append all to list
+            ol.append(dayEl);
+            ol.append(iconEl);
+            ol.append(tempEl);
+            ol.append(windEl);
+            ol.append(humEl);
+            ol.append(uviEl);
+            fiveDayEl.append(ol);
+
+        }
+    }
+
 
 
     ///--------------------------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
@@ -155,6 +205,7 @@ function main() {
                 response.json().then(function (data) {
                     console.log("Weather Data: ", data);
                     currentWeatherDisplay(data);
+                    forcastDisplay(data);
                 });
             }
         });
