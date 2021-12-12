@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="./assets/css/owfont-regular.min.css" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
 
-    
+
 </head>
 
 <body>
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main class = "vh-70 row">
+    <main class="vh-70 row">
         <!-------------------------- Div that hold all search query elements --------------------->
         <div id="searchContainer" class="col-even border">
             <form class='searchForm row border'>
@@ -24,10 +24,11 @@
                 <input name="searchBox" type="text" class="inputBox col-full">
                 <button type="submit" class="btn col-full">Search</button>
             </form>
+            <h2 class="center">Previous Searches</h2>
             <!--------------------->
-            <div id="searchHistory"  class="border">
-                <ol class = "list">
-                    <li>Prev Searches Go Here</li>
+            <div id="searchHistory" class="border">
+                <ol class="list">
+                    
                 </ol>
             </div>
 
@@ -36,24 +37,26 @@
 
         <!---------------------------Result Container Div-------------------------------------------->
         <div id="resultsContainer" class="col-2 border">
-           
-            <div class = "resultsDisplay border vh-20 ">
-               
-                <h2 id = "cityDisplay"> -- </h2>
-                <div class="currentTempHolder row">
-                <ol id = "currentList" class=" border list col-even">
-                </ol>
 
-                <i class="largeIcon"></i>
+            <div class="resultsDisplay border vh-20 ">
+
+                <h2 id="cityDisplay" class=""> -- </h2>
+                <div class="currentTempHolder row-noWrap">
+                    
+                    <ol id="currentList" class=" border list col-even">
+                    </ol>
+
+                    <i class="largeIcon col-even"></i>
+                    <h2 id="description" class ="col-even"></h2>
+                </div>
+
             </div>
-                
-            </div>
-            
+
             <!------------------->
             <div class="fiveDay vh-40">
                 <h2>Five Day Forcast</h2>
-                <div class = "fiveDayContainer row border">
-                    
+                <div class="fiveDayContainer row border">
+
                 </div>
             </div>
         </div>

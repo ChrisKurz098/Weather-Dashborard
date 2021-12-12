@@ -1,17 +1,36 @@
+:root{
+    --primary-bg-color: rgba(212, 237, 252, 0.473);
+    --secondary-bg-color: rgba(125, 201, 255, 0.349);
+    --tertiary-bg-color: rgba(133, 160, 190, 0.466);
+    
+    --primary-font-color: rgb(54, 54, 54);
+    --secondary-font-color: rgb(145, 145, 145);
+
+    --primary-border-color: rgb(48, 48, 48);
+    --secondary-border-color: rgba(71, 70, 70, 0.452);
+    
+}
+
 *{
     margin:3px;
     padding:0;
     box-sizing: border-box;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    
 }
+
+
 html{
+    background-image: linear-gradient(var(--primary-bg-color),var(--secondary-bg-color));
     overflow: scroll;
 }
 li{
     white-space:pre;
 }
 h1{
+    border: 3px solid var(--primary-border-color);
+    background-image: linear-gradient(var(--primary-bg-color),var(--secondary-bg-color));
+    border-radius: 10px;
     text-align: center;
 }
 h2{
@@ -57,6 +76,10 @@ h2{
     flex-wrap: wrap;
 }
 
+.row-noWrap{
+    display: flex;
+    flex-wrap:nowrap;
+}
 .col-even{
     flex: 1;
 }
@@ -69,7 +92,7 @@ h2{
 }
 
 .owf{
-    color: rgb(145, 145, 145);
+    
     font-size: 40px;
 }
 .bold{
@@ -79,7 +102,7 @@ h2{
     
     margin: 6px;
     padding: 6px;
-    border-bottom: 3px solid rgb(48, 48, 48);
+    border-bottom: 3px solid var(--secondary-border-color);
 
 }
 
@@ -87,7 +110,7 @@ h2{
  
     margin: 6px;
     padding: 6px;
-    border-top: 3px solid rgb(48, 48, 48);
+    border-top: 3px solid var(--secondary-border-color);
 
 }
 
@@ -95,19 +118,15 @@ h2{
     border-radius: 10px;
     margin: 6px;
     padding: 6px;
-    border: 3px solid black;
-}
-.largeIcon {
-    padding-left: 5vw;
-    padding-right: 5vw;
-    font-size: 120px;
-    animation: rightFade 2s;
+    border: 3px solid var(--primary-border-color);
 }
 /*-----------------------------------------*/
 .list {
+   
     list-style-type: none;
 }
 form{
+    background-color: var(--secondary-bg-color);
    font-size: 26px; 
    font-weight: bold;
    text-align: center;
@@ -118,13 +137,23 @@ form{
 }
 .hoverHighlight{
     padding-left:30px ;
-    background-color: blanchedalmond;
+    background-color: rgba(255, 235, 205, 0.74);
 }
 .hoverHighlight:hover{
-    background-color: rgb(209, 180, 136);
+    background-color: rgba(209, 180, 136, 0.664);
 }
 
+#searchHistory{
+    background-color: var(--secondary-bg-color);
+}
+#searchContainer{
+    background-color: var(--tertiary-bg-color);
+}
+#resultsContainer{
+    background-color: var(--tertiary-bg-color);
+}
 .resultsDisplay{
+    background-color: var(--secondary-bg-color);
     min-height: 171px;
 }
 
@@ -132,22 +161,42 @@ form{
     animation: rightFade 1s;
 }
 
+
+
 #currentList{
+    background-color: var(--primary-bg-color);
     min-height: 110px;
     max-width: 200px;
+    /* margin-left: 10vw; */
     padding-left: 25px;
 }
 
+
+.largeIcon {
+    margin: auto;
+ 
+    font-size: 120px;
+    animation: rightFade 2s;
+}
+
+#description{
+    margin: auto;
+    font-style: italic;
+    font-size: 20px;
+    animation: rightFade 2s;
+}
+
 .fiveDayContainer{
+    background-color: var(--secondary-bg-color);
     min-height: 309px;
 }
 .dailyList {
-background-color: rgba(30, 80, 173, 0.473);
+background-color: var(--primary-bg-color);
 
 animation: scaleIn 500ms;
 }
 .dailyList li{
-    color:rgb(54, 54, 54);
+    color:var(--primary-font-color);
 }
 
 
@@ -155,6 +204,7 @@ animation: scaleIn 500ms;
     border-radius: 30px;
     font-size: 23px;
 }
+
 
 /*---------Animations--------*/
 @keyframes scaleIn {
@@ -167,6 +217,20 @@ animation: scaleIn 500ms;
     from{
         transform: translateX(100px);
         opacity: 0;
+    }
+    
+}
+
+/*Media Queries*/
+
+@media screen and (max-width: 768px){
+    h1{
+        min-width: 512px;
+        flex: 100%;
+    }
+    #searchContainer{
+        min-width: 512px;
+        flex: 100%;
     }
     
 }

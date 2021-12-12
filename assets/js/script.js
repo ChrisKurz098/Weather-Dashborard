@@ -9,18 +9,48 @@ function main() {
     const currentListEl = document.querySelector("#currentList");
     const currentTempDiv = document.querySelector(".currentTempHolder");
     const fiveDayEl = document.querySelector(".fiveDayContainer");
-    let searchHistory = ["", "", "", "", "","",""];
-    
+    let searchHistory = ["", "", "", "", "", "", ""];//make as many blanks as results desired
 
-    //check if any prev searchs
+
+    //check if no prev search data found
     if (!localStorage.getItem("searches")) {
-        //if none saved create a place to save them. 
+        //create a place to save prev search data. 
         localStorage.setItem("searches", JSON.stringify(searchHistory));
     }
-    // load the data from localStorage
+    // load the prev search data from localStorage
     searchHistory = JSON.parse(localStorage.getItem("searches"));
     updateSearchList(searchHistory);
     //----------------------------------------------------------------------------------------------------------//
+
+    //-------------Get Current Location---------------------//
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocal);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showLocal(position) {
+
+        //Reverse location search to get the city name of the users location
+        let apiUrl = "http://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529";
+        fetch(apiUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    //update the displyed name to current location
+                    updateCityEl(data);
+                });
+            } else {
+                console.log("No response")
+            }
+        });
+        //get weather for current location
+        fetchWeather(position.coords.latitude, position.coords.longitude);
+    }
+
+    getLocation();//Run functions to get local weather
 
 
     //---------------------------------------------------------INPUT HANDELING---------------------------------------------------//
@@ -42,7 +72,7 @@ function main() {
         //if the current query isnt in the past search history
         if (searchHistory.every((currentValue) => currentValue !== search)) {
             //push all array values down one except for the last
-            for (let i = searchHistory.length-2; i > -1; i--) {
+            for (let i = searchHistory.length - 2; i > -1; i--) {
                 let old = searchHistory[i];
                 let ii = i + 1;
                 searchHistory[ii] = old;
@@ -73,10 +103,10 @@ function main() {
             //remove the child element until none left
             listEl.removeChild(listEl.firstChild)
         }
-        //now reate new elements/ update list
+        //now create new elements/ update list
         for (let i = 0; i < array.length; i++) {
             let listItemEl = document.createElement("li");
-            //if there is text in the array index, make it visible with css classes
+            //if there is text in the array index, make the element visible with css classes
             if (array[i]) {
                 listItemEl.classList = "border hoverHighlight bnt";
             }
@@ -89,6 +119,7 @@ function main() {
         const cityDisplayEl = document.querySelector("#cityDisplay");
         const newCityEl = document.createElement("h2");
         newCityEl.id = "cityDisplay"
+        newCityEl.classList = "";
         cityDisplayEl.remove();
         let cityName = data[0].name + ', ' + data[0].state + ' ' + data[0].country;
         newCityEl.textContent = cityName;
@@ -125,8 +156,19 @@ function main() {
         document.querySelector(".largeIcon").remove();
         let icon = document.createElement("li");
         icon.classList = "list";
-        icon.innerHTML = '<i class = "owf largeIcon owf-' + (data.current.weather[0].id) + '"></i>';
-        
+        icon.innerHTML = '<i class = "owf largeIcon col-even owf-' + (data.current.weather[0].id) + '"></i>';
+        //this will change the color of the icon depeding on how cloudy it is
+        let c = data.current.clouds;
+        icon.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + (c * 2) + ")";
+
+        document.querySelector("#description").remove();
+        let descript = document.createElement("li");
+        descript.classList = "list col-even";
+        descript.id = "description";
+        let weatherDescription = capitalize(data.current.weather[0].description);
+        descript.innerHTML = weatherDescription;
+
+
 
         //append all to list
         currentListEl.append(currentTempEl);
@@ -134,8 +176,23 @@ function main() {
         currentListEl.append(currentHumEl);
         currentListEl.append(currentUviEl);
         currentTempDiv.append(icon);
+        currentTempDiv.append(descript);
     }
 
+    //this will capitalize each word in a string
+    function capitalize(text) {
+        //split word into array at spaces
+        const textArray = text.split(" ");
+        //create variable to hold capitalized words    
+        let newText = "";
+        //go through each word and capitalize
+        for (let i = 0; i < textArray.length; i++) {
+            newText += " " + textArray[i].charAt(0).toUpperCase() + textArray[i].slice(1) + " ";
+        }
+        //trim the extra spaces on ends
+        newText = newText.trim();
+        return newText;
+    }
     //--------Update DOM to show five day forcast-----//
     function forcastDisplay(data) {
         while (fiveDayEl.firstChild) {
@@ -157,14 +214,17 @@ function main() {
             dayEl.textContent = theDate;
 
             ///Create New Ico
-           
-            let iconEl = document.createElement ("li");
+
+            let iconEl = document.createElement("li");
             iconEl.innerHTML = '<i class = "owf col-even owf-' + (data.daily[i].weather[0].id) + '"></i>'
             iconEl.classList = "center";
-            
+            //this will change the color of the icon depeding on how cloudy it is
+            let c = data.daily[i].clouds;
+            iconEl.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + (c * 2) + ")";
+
 
             let tempEl = document.createElement("li")
-            tempEl.textContent = "min/max: \n" + Math.round(data.daily[i].temp.min) + "\u00B0F / " + Math.round(data.daily[i].temp.min) + "\u00B0F";
+            tempEl.textContent = "min/max: \n" + Math.round(data.daily[i].temp.min) + "\u00B0F / " + Math.round(data.daily[i].temp.max) + "\u00B0F";
             tempEl.classList = "center";
 
             let windEl = document.createElement("li")
@@ -179,7 +239,7 @@ function main() {
             uviEl.textContent = "UVI Index: \n" + data.daily[i].uvi;
             uviEl.classList = "center";
 
-          
+
             //append all to list
             ol.append(dayEl);
             ol.append(iconEl);
@@ -187,7 +247,7 @@ function main() {
             ol.append(windEl);
             ol.append(humEl);
             ol.append(uviEl);
-            
+
             fiveDayEl.append(ol);
 
         }
@@ -195,7 +255,7 @@ function main() {
 
 
 
-    ///--------------------------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
+    ///-----------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
     function convertQuery(query) {
         let apiURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
         fetch(apiURL).then(function (response) {
@@ -204,7 +264,7 @@ function main() {
                     //Check if data has info
                     if (data.length) {
                         //save the query since it is valid
-                        let savedNameData = data[0].name + ',' + data[0].state + ',' + data[0].country;
+                        let savedNameData = data[0].name + ',' + data[0].state + ' ' + data[0].country;
                         logSearch(savedNameData);
                         updateCityEl(data);
                         console.log('Lon: ', data[0].lon);
@@ -225,7 +285,7 @@ function main() {
     }
 
 
-
+    //------Get weather data from lat and lon-----//
     function fetchWeather(lat, lon) {
         console.log("Fetch request for:", lat, lon);
         apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=e1e7eafa5c756ed866504aaf6f3cb529"
@@ -236,18 +296,20 @@ function main() {
                     console.log("Weather Data: ", data);
                     currentWeatherDisplay(data);
                     forcastDisplay(data);
-                    resultContailerEl.scrollIntoView({behavior: "smooth"});
+                    resultContailerEl.scrollIntoView({ behavior: "smooth" });
                 });
-                
+
             }
         });
-        
+
     }
 
     //----Event Listeners---//
     searchFormEl.addEventListener("submit", getQuery);
     listEl.addEventListener("click", getPrevSearch);
-    /////--------------------------------------------------------------END MAIN-----------------------------------------------------------------/////
+
+    /////-----------------------------------------------END MAIN-------------------------------------------------------/////
 }
 
+///Run Code///
 main();
