@@ -1,24 +1,57 @@
 *{
-    margin:0;
+    margin:3px;
     padding:0;
     box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   
 }
-.border {
-    margin: 6px;
-    padding: 6px;
-    border: 3px solid black;
+html{
+    overflow: scroll;
 }
-.list {
-    list-style-type: none;
+li{
+    white-space:pre;
+}
+h1{
+    text-align: center;
+}
+h2{
+    padding-left: 10px;
+}
+.center{
+    text-align: center;
 }
 
-.hoverHighlight{
-    background-color: blanchedalmond;
+.vh-10{
+    min-height: 10vh;
 }
-.hoverHighlight:hover{
-    background-color: rgb(209, 180, 136);
+.vh-20{
+    min-height: 20vh;
 }
-
+.vh-30{
+    min-height: 30vh;
+}
+.vh-40{
+    min-height: 40vh;
+}
+.vh-50{
+    min-height: 50vh;
+}
+.vh-60{
+    min-height: 60vh;
+}
+.vh-70{
+    min-height: 70vh;
+}
+.vh-80{
+    min-height: 80vh;
+}
+.vh-90{
+    min-height: 90vh;
+}
+.vh-100{
+    min-height: 100vh;
+}
+/*-----------------------------------------*/
 .row{
     display: flex;
     flex-wrap: wrap;
@@ -27,6 +60,113 @@
 .col-even{
     flex: 1;
 }
+
+.col-2{
+    flex: 2
+}
 .col-full{
     flex: 100%;
+}
+
+.owf{
+    color: rgb(145, 145, 145);
+    font-size: 40px;
+}
+.bold{
+    font-weight: bold;
+}
+.border-bottom{
+    
+    margin: 6px;
+    padding: 6px;
+    border-bottom: 3px solid rgb(48, 48, 48);
+
+}
+
+.border-top{
+ 
+    margin: 6px;
+    padding: 6px;
+    border-top: 3px solid rgb(48, 48, 48);
+
+}
+
+.border {
+    border-radius: 10px;
+    margin: 6px;
+    padding: 6px;
+    border: 3px solid black;
+}
+.largeIcon {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    font-size: 120px;
+    animation: rightFade 2s;
+}
+/*-----------------------------------------*/
+.list {
+    list-style-type: none;
+}
+form{
+   font-size: 26px; 
+   font-weight: bold;
+   text-align: center;
+}
+.inputBox{
+    padding: 5px;
+    min-height: 40px;
+}
+.hoverHighlight{
+    padding-left:30px ;
+    background-color: blanchedalmond;
+}
+.hoverHighlight:hover{
+    background-color: rgb(209, 180, 136);
+}
+
+.resultsDisplay{
+    min-height: 171px;
+}
+
+#cityDisplay{
+    animation: rightFade 1s;
+}
+
+#currentList{
+    min-height: 110px;
+    max-width: 200px;
+    padding-left: 25px;
+}
+
+.fiveDayContainer{
+    min-height: 309px;
+}
+.dailyList {
+background-color: rgba(30, 80, 173, 0.473);
+
+animation: scaleIn 500ms;
+}
+.dailyList li{
+    color:rgb(54, 54, 54);
+}
+
+
+.btn {
+    border-radius: 30px;
+    font-size: 23px;
+}
+
+/*---------Animations--------*/
+@keyframes scaleIn {
+    from{
+        transform: scale(.01);
+    }
+    
+}
+@keyframes rightFade {
+    from{
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    
 }

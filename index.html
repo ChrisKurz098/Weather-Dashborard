@@ -16,11 +16,11 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main class = "row">
+    <main class = "vh-70 row">
         <!-------------------------- Div that hold all search query elements --------------------->
         <div id="searchContainer" class="col-even border">
             <form class='searchForm row border'>
-                <label for="searchBox" class="col-full">Search for a City:</label>
+                <label for="searchBox" class="col-full">Search for a City</label>
                 <input name="searchBox" type="text" class="inputBox col-full">
                 <button type="submit" class="btn col-full">Search</button>
             </form>
@@ -35,15 +35,22 @@
         <!---------------------------------------------------------------------------------------->
 
         <!---------------------------Result Container Div-------------------------------------------->
-        <div id="resultsContainer" class="col-even border">
-            <div class = "resultsDisplay border">
-                <h2 id = "cityDisplay"> </h2>
-                <ol id = "currentList" class=" border list">
-                  
+        <div id="resultsContainer" class="col-2 border">
+           
+            <div class = "resultsDisplay border vh-20 ">
+               
+                <h2 id = "cityDisplay"> -- </h2>
+                <div class="currentTempHolder row">
+                <ol id = "currentList" class=" border list col-even">
                 </ol>
+
+                <i class="largeIcon"></i>
             </div>
+                
+            </div>
+            
             <!------------------->
-            <div class="fiveDay">
+            <div class="fiveDay vh-40">
                 <h2>Five Day Forcast</h2>
                 <div class = "fiveDayContainer row border">
                     

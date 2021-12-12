@@ -3,10 +3,14 @@ function main() {
     //----------------------------------------------------------INIT PAGE--------------------------------------------------------//
     const searchFormEl = document.querySelector(".searchForm");
     const searchInputEl = document.querySelector(".inputBox");
-    const listEl = document.querySelector(".list")
+    const listEl = document.querySelector(".list");
+    const resultContailerEl = document.querySelector("#resultsContainer");
+    const resultDisplayEl = document.querySelector(".resultsDisplay");
     const currentListEl = document.querySelector("#currentList");
+    const currentTempDiv = document.querySelector(".currentTempHolder");
     const fiveDayEl = document.querySelector(".fiveDayContainer");
-    let searchHistory = ["", "", "", "", ""];
+    let searchHistory = ["", "", "", "", "","",""];
+    
 
     //check if any prev searchs
     if (!localStorage.getItem("searches")) {
@@ -37,8 +41,8 @@ function main() {
     function logSearch(search) {
         //if the current query isnt in the past search history
         if (searchHistory.every((currentValue) => currentValue !== search)) {
-            //push all array values down one except for the last (index 4)
-            for (let i = 3; i > -1; i--) {
+            //push all array values down one except for the last
+            for (let i = searchHistory.length-2; i > -1; i--) {
                 let old = searchHistory[i];
                 let ii = i + 1;
                 searchHistory[ii] = old;
@@ -48,6 +52,7 @@ function main() {
             localStorage.setItem("searches", JSON.stringify(searchHistory));
             updateSearchList(searchHistory);
         }
+        return;
     }
 
     ///-----------------------if a prev search list is clicked run a fetch for that list items textContent-----------------//
@@ -70,10 +75,10 @@ function main() {
         }
         //now reate new elements/ update list
         for (let i = 0; i < array.length; i++) {
-            let listItemEl = document.createElement("li")
+            let listItemEl = document.createElement("li");
             //if there is text in the array index, make it visible with css classes
             if (array[i]) {
-                listItemEl.classList = "border hoverHighlight";
+                listItemEl.classList = "border hoverHighlight bnt";
             }
             listItemEl.textContent = array[i];
             listEl.append(listItemEl);
@@ -82,8 +87,12 @@ function main() {
     ///--------Update City Headder-------///
     function updateCityEl(data) {
         const cityDisplayEl = document.querySelector("#cityDisplay");
+        const newCityEl = document.createElement("h2");
+        newCityEl.id = "cityDisplay"
+        cityDisplayEl.remove();
         let cityName = data[0].name + ', ' + data[0].state + ' ' + data[0].country;
-        cityDisplayEl.textContent = cityName;
+        newCityEl.textContent = cityName;
+        resultDisplayEl.prepend(newCityEl);
         return;
     }
 
@@ -97,21 +106,34 @@ function main() {
 
         //now create new elements/ update list
         let currentTempEl = document.createElement("li")
+        currentTempEl.style.animation = "rightFade 1s"
         currentTempEl.textContent = "Temp: " + Math.round(data.current.temp) + "\u00B0F";
 
         let currentWindEl = document.createElement("li")
+        currentWindEl.style.animation = "rightFade 1s"
         currentWindEl.textContent = "Wind: " + data.current.wind_speed + " MPH";
 
         let currentHumEl = document.createElement("li")
+        currentHumEl.style.animation = "rightFade 1s"
         currentHumEl.textContent = "Humidity: " + data.current.humidity + " %";
 
         let currentUviEl = document.createElement("li")
+        currentUviEl.style.animation = "rightFade 1s"
         currentUviEl.textContent = "UVI Index: " + data.current.uvi;
+
+
+        document.querySelector(".largeIcon").remove();
+        let icon = document.createElement("li");
+        icon.classList = "list";
+        icon.innerHTML = '<i class = "owf largeIcon owf-' + (data.current.weather[0].id) + '"></i>';
+        
+
         //append all to list
         currentListEl.append(currentTempEl);
         currentListEl.append(currentWindEl);
         currentListEl.append(currentHumEl);
         currentListEl.append(currentUviEl);
+        currentTempDiv.append(icon);
     }
 
     //--------Update DOM to show five day forcast-----//
@@ -127,30 +149,37 @@ function main() {
             let theDate = (dateInfo.getMonth() + 1) + "/" + (dateInfo.getUTCDate()) + "/" + (dateInfo.getUTCFullYear());
             //Create amd populate ol
             const ol = document.createElement("ol");
-            ol.classList = "list border col-even";
+            ol.classList = "list border col-even dailyList";
+
             //now create new elements/ update list
             let dayEl = document.createElement("li")
+            dayEl.classList = "bold center border-bottom";
             dayEl.textContent = theDate;
 
+            ///Create New Ico
+           
             let iconEl = document.createElement ("li");
-            iconEl.innerHTML = '<i class = "owf owf-' + (data.daily[i].weather[0].id) + '"></i>'
+            iconEl.innerHTML = '<i class = "owf col-even owf-' + (data.daily[i].weather[0].id) + '"></i>'
+            iconEl.classList = "center";
             
 
             let tempEl = document.createElement("li")
-            tempEl.textContent = "min/max: " + Math.round(data.daily[i].temp.min) + "\u00B0F / " + Math.round(data.daily[i].temp.min) + "\u00B0F";
-            
+            tempEl.textContent = "min/max: \n" + Math.round(data.daily[i].temp.min) + "\u00B0F / " + Math.round(data.daily[i].temp.min) + "\u00B0F";
+            tempEl.classList = "center";
 
             let windEl = document.createElement("li")
-            windEl.textContent = "Wind: " + data.daily[i].wind_speed + " MPH";
-            
+            windEl.textContent = "Wind: \n" + data.daily[i].wind_speed + " MPH";
+            windEl.classList = "center";
 
             let humEl = document.createElement("li")
-            humEl.textContent = "Humidity: " + data.daily[i].humidity + " %";
-           
+            humEl.textContent = "Humidity: \n" + data.daily[i].humidity + " %";
+            humEl.classList = "center";
 
             let uviEl = document.createElement("li")
-            uviEl.textContent = "UVI Index: " + data.daily[i].uvi;
-            
+            uviEl.textContent = "UVI Index: \n" + data.daily[i].uvi;
+            uviEl.classList = "center";
+
+          
             //append all to list
             ol.append(dayEl);
             ol.append(iconEl);
@@ -158,6 +187,7 @@ function main() {
             ol.append(windEl);
             ol.append(humEl);
             ol.append(uviEl);
+            
             fiveDayEl.append(ol);
 
         }
@@ -206,10 +236,12 @@ function main() {
                     console.log("Weather Data: ", data);
                     currentWeatherDisplay(data);
                     forcastDisplay(data);
+                    resultContailerEl.scrollIntoView({behavior: "smooth"});
                 });
+                
             }
         });
-
+        
     }
 
     //----Event Listeners---//
