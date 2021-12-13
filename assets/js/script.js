@@ -300,7 +300,7 @@ function main() {
                     //Check if data has info
                     if (data.length) {
                         //save the query since it is valid
-                        let savedNameData = data[0].name + ',' + data[0].state + ' ' + data[0].country;
+                        let savedNameData = data[0].name + ',' + data[0].state + ',' + data[0].country;
                         logSearch(savedNameData);
                         updateCityEl(data);
                         fetchWeather(data[0].lat, data[0].lon);
