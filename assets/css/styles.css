@@ -1,12 +1,12 @@
 :root{
-    --primary-bg-color: rgba(212, 237, 252, 0.473);
-    --secondary-bg-color: rgba(133, 160, 190, 0.466);
-    --tertiary-bg-color: rgba(125, 201, 255, 0.349);
+    --primary-bg-color: rgba(0, 14, 75, 0.473);
+    --secondary-bg-color: rgba(38, 42, 71, 0.466);
+    --tertiary-bg-color: rgba(0, 64, 110, 0.349);
     
     
-    --primary-font-color: rgb(54, 54, 54);
-    --secondary-font-color: rgb(145, 145, 145);
-    --tertiary-font-color: rgba(54, 54, 54);
+    --primary-font-color: rgb(233, 233, 233);
+    --secondary-font-color: rgb(198, 191, 255);
+    --tertiary-font-color: rgb(232, 245, 255);
 
     --primary-border-color: rgb(48, 48, 48);
     --secondary-border-color: rgba(71, 70, 70, 0.452);
@@ -18,26 +18,43 @@
     padding:0;
     box-sizing: border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
+    
    
 }
 
+.col-tx-1{
+    color: var(--primary-font-color) ;
+}
+.col-tx-2{
+    color: var(--secondary-font-color) ;
+}
+.col-tx-3{
+    color: var(--tertiary-font-color) ;
+}
 
 html{
     background-image: linear-gradient(var(--primary-bg-color),var(--secondary-bg-color));
     overflow: scroll;
 }
 li{
+    font-weight: bold;
+    color: var(--secondary-font-color);
     white-space:pre;
+    
 }
 h1{
+    color: var(--tertiary-font-color);
     border: 3px solid var(--primary-border-color);
     background-image: linear-gradient(var(--primary-bg-color),var(--secondary-bg-color));
     border-radius: 10px;
     text-align: center;
 }
 h2{
+    color: var(--tertiary-font-color);
     padding-left: 10px;
+}
+label{
+    color: var(--tertiary-font-color);
 }
 .center{
     text-align: center;
@@ -140,10 +157,10 @@ form{
 }
 .hoverHighlight{
     padding-left:30px ;
-    background-color: rgba(255, 235, 205, 0.74);
+    background-color: rgba(3, 58, 129, 0.74);
 }
 .hoverHighlight:hover{
-    background-color: rgba(209, 180, 136, 0.664);
+    background-color: rgba(2, 43, 97, 0.74);
 }
 
 #searchHistory{

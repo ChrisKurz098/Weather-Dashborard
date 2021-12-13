@@ -186,7 +186,11 @@ function main() {
         icon.innerHTML = '<i class = "owf largeIcon col-even owf-' + (data.current.weather[0].id) + '"></i>';
         //this will change the color of the icon depeding on how cloudy it is
         let c = data.current.clouds;
-        icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";;
+        if (c<10){
+        icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
+        }else {
+            icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
+        }
 
         document.querySelector("#description").remove();
         let descript = document.createElement("li");
@@ -226,7 +230,7 @@ function main() {
             //remove the child element until none left
             fiveDayEl.removeChild(fiveDayEl.firstChild)
         }
-
+        console.log(data);
         for (let i = 1; i < 5; i++) {
             //convert the date
             let dateInfo = new Date((data.daily[i].dt) * 1000);
@@ -247,7 +251,11 @@ function main() {
             iconEl.classList = "center";
             //this will change the color of the icon depeding on how cloudy it is
             let c = data.daily[i].clouds;
-            iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
+            if (c<10){
+                iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
+                }else {
+                    iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
+                }
 
 
             let tempEl = document.createElement("li")
