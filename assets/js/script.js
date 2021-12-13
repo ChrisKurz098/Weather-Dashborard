@@ -1,6 +1,7 @@
 
 function main() {
     //----------------------------------------------------------INIT PAGE--------------------------------------------------------//
+    const Apikey = config.weatherApiKey;
     const searchFormEl = document.querySelector(".searchForm");
     const searchInputEl = document.querySelector(".inputBox");
     const listEl = document.querySelector(".list");
@@ -35,7 +36,7 @@ function main() {
     function showLocal(position) {
 
         //Reverse location search to get the city name of the users location
-        let apiUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529";
+        let apiUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid="+Apikey;
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
@@ -257,7 +258,7 @@ function main() {
 
     ///-----------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
     function convertQuery(query) {
-        let apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
+        let apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid='+Apikey;
         fetch(apiURL).then(function (response) {
             if (response.ok) {
                 console.log("Converting Query to Lon Lat");
@@ -289,7 +290,7 @@ function main() {
     //------Get weather data from lat and lon-----//
     function fetchWeather(lat, lon) {
         console.log("Fetch request for:", lat, lon);
-        apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=e1e7eafa5c756ed866504aaf6f3cb529"
+        apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid="+Apikey;
 
         fetch(apiURL).then(function (response) {
             if (response.ok) {
