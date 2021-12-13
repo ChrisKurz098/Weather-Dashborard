@@ -257,7 +257,7 @@ function main() {
 
     ///-----------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
     function convertQuery(query) {
-        let apiURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
+        let apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
         fetch(apiURL).then(function (response) {
             if (response.ok) {
                 console.log("Converting Query to Lon Lat");
