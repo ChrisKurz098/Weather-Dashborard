@@ -35,7 +35,7 @@ function main() {
     function showLocal(position) {
 
         //Reverse location search to get the city name of the users location
-        let apiUrl = "http://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529";
+        let apiUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529";
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
@@ -260,6 +260,7 @@ function main() {
         let apiURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=e1e7eafa5c756ed866504aaf6f3cb529'
         fetch(apiURL).then(function (response) {
             if (response.ok) {
+                console.log("Converting Query to Lon Lat");
                 response.json().then(function (data) {
                     //Check if data has info
                     if (data.length) {
