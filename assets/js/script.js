@@ -186,7 +186,7 @@ function main() {
         icon.innerHTML = '<i class = "owf largeIcon col-even owf-' + (data.current.weather[0].id) + '"></i>';
         //this will change the color of the icon depeding on how cloudy it is
         let c = data.current.clouds;
-        if (c<4){
+        if (c<5){
         icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
         }else {
             icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
@@ -251,7 +251,7 @@ function main() {
             iconEl.classList = "center";
             //this will change the color of the icon depeding on how cloudy it is
             let c = data.daily[i].clouds;
-            if (c<4){
+            if (c<5){
                 iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
                 }else {
                     iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
