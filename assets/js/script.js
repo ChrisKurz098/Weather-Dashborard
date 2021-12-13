@@ -1,7 +1,7 @@
 
 function main() {
     //----------------------------------------------------------INIT PAGE--------------------------------------------------------//
-    const Apikey = e1e7eafa5c756ed866504aaf6f3cb529;
+    const Apikey = 'e1e7eafa5c756ed866504aaf6f3cb529';
     const searchFormEl = document.querySelector(".searchForm");
     const searchInputEl = document.querySelector(".inputBox");
     const listEl = document.querySelector(".list");
