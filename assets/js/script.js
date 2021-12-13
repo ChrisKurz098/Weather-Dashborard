@@ -137,19 +137,19 @@ function main() {
 
         //now create new elements/ update list
         let currentTempEl = document.createElement("li")
-        currentTempEl.style.animation = "rightFade 1s"
+        currentTempEl.style.animation = "fade 1s"
         currentTempEl.textContent = "Temp: " + Math.round(data.current.temp) + "\u00B0F";
 
         let currentWindEl = document.createElement("li")
-        currentWindEl.style.animation = "rightFade 1s"
+        currentWindEl.style.animation = "fade 1s"
         currentWindEl.textContent = "Wind: " + data.current.wind_speed + " MPH";
 
         let currentHumEl = document.createElement("li")
-        currentHumEl.style.animation = "rightFade 1s"
+        currentHumEl.style.animation = "fade 1s"
         currentHumEl.textContent = "Humidity: " + data.current.humidity + " %";
 
         let currentUviEl = document.createElement("li")
-        currentUviEl.style.animation = "rightFade 1s"
+        currentUviEl.style.animation = "fade 1s"
         currentUviEl.textContent = "UVI Index: " + data.current.uvi;
 
 

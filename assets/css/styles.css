@@ -1,10 +1,12 @@
 :root{
     --primary-bg-color: rgba(212, 237, 252, 0.473);
-    --secondary-bg-color: rgba(125, 201, 255, 0.349);
-    --tertiary-bg-color: rgba(133, 160, 190, 0.466);
+    --secondary-bg-color: rgba(133, 160, 190, 0.466);
+    --tertiary-bg-color: rgba(125, 201, 255, 0.349);
+    
     
     --primary-font-color: rgb(54, 54, 54);
     --secondary-font-color: rgb(145, 145, 145);
+    --tertiary-font-color: rgba(54, 54, 54);
 
     --primary-border-color: rgb(48, 48, 48);
     --secondary-border-color: rgba(71, 70, 70, 0.452);
@@ -16,6 +18,7 @@
     padding:0;
     box-sizing: border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
    
 }
 
@@ -216,6 +219,13 @@ animation: scaleIn 500ms;
 @keyframes rightFade {
     from{
         transform: translateX(100px);
+        opacity: 0;
+    }
+    
+}
+@keyframes fade {
+    from{
+        transform: scale(.01);
         opacity: 0;
     }
     
