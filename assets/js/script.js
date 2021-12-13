@@ -6,6 +6,7 @@ function main() {
     const searchInputEl = document.querySelector(".inputBox");
     const listEl = document.querySelector(".list");
     const resultContailerEl = document.querySelector("#resultsContainer");
+    let cityDisplayEl = document.querySelector("#cityDisplay"); //needs to be let variable as it changes
     const resultDisplayEl = document.querySelector(".resultsDisplay");
     const currentListEl = document.querySelector("#currentList");
     const currentTempDiv = document.querySelector(".currentTempHolder");
@@ -27,16 +28,16 @@ function main() {
 
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showLocal);
+            navigator.geolocation.getCurrentPosition(showLocal, getLocalError);
         } else {
-            console.log("Geolocation is not supported by this browser.");
+            cityDisplayEl.textContent = "Geolocation is not supported by this browser.";
         }
     }
 
     function showLocal(position) {
 
         //Reverse location search to get the city name of the users location
-        let apiUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid="+Apikey;
+        let apiUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&limit=1&appid=" + Apikey;
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
@@ -44,11 +45,32 @@ function main() {
                     updateCityEl(data);
                 });
             } else {
-                console.log("No response")
+                cityDisplayEl.textContent = "No response from server";
             }
-        });
+        })
+            //errors are sent to the catch() method
+            .catch(function (error) {
+                // Notice this `.catch()` getting chained onto the end of the `.then()` method
+                cityDisplayEl.textContent = "Unable to connect to server";
+            });
         //get weather for current location
         fetchWeather(position.coords.latitude, position.coords.longitude);
+    }
+    function getLocalError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                cityDisplayEl.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                cityDisplayEl.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                cityDisplayEl.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                cityDisplayEl.innerHTML = "An unknown error occurred."
+                break;
+        }
     }
 
     getLocation();//Run functions to get local weather
@@ -61,7 +83,7 @@ function main() {
         //if there is anything in the search input
         if (query) {
             searchInputEl.value = "";
-            console.log("The query is: ", query);
+
 
             //runs the convert query to lon/lat
             convertQuery(query);
@@ -117,14 +139,18 @@ function main() {
     }
     ///--------Update City Headder-------///
     function updateCityEl(data) {
-        const cityDisplayEl = document.querySelector("#cityDisplay");
+
+
+        cityDisplayEl.remove();
         const newCityEl = document.createElement("h2");
         newCityEl.id = "cityDisplay"
         newCityEl.classList = "";
-        cityDisplayEl.remove();
+
         let cityName = data[0].name + ', ' + data[0].state + ' ' + data[0].country;
         newCityEl.textContent = cityName;
         resultDisplayEl.prepend(newCityEl);
+        //must redefine this elements variable beacuse you removed it
+        cityDisplayEl = document.querySelector("#cityDisplay");
         return;
     }
 
@@ -258,10 +284,10 @@ function main() {
 
     ///-----------------------------------------------FETCH REQUEST FUNCTIONS---------------------------------------------///
     function convertQuery(query) {
-        let apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid='+Apikey;
+        let apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + query + '&limit=1&appid=' + Apikey;
         fetch(apiURL).then(function (response) {
             if (response.ok) {
-                console.log("Converting Query to Lon Lat");
+
                 response.json().then(function (data) {
                     //Check if data has info
                     if (data.length) {
@@ -269,19 +295,21 @@ function main() {
                         let savedNameData = data[0].name + ',' + data[0].state + ' ' + data[0].country;
                         logSearch(savedNameData);
                         updateCityEl(data);
-                        console.log('Lon: ', data[0].lon);
-                        console.log('Lat: ', data[0].lat);
                         fetchWeather(data[0].lat, data[0].lon);
                     }
                     else {
-                        console.log("Not a valid city name");
+                        cityDisplayEl.textContent = "Not a valid city name";
                     }
 
                 });
             }
             else {
-                console.log("Error getting response");
+                cityDisplayEl.textContent = "Error getting response";
             }
+        }) //errors are sent to the catch() method
+        .catch(function (error) {
+            // Notice this `.catch()` getting chained onto the end of the `.then()` method
+            cityDisplayEl.textContent = "Unable to connect to server";
         });
 
     }
@@ -289,13 +317,13 @@ function main() {
 
     //------Get weather data from lat and lon-----//
     function fetchWeather(lat, lon) {
-        console.log("Fetch request for:", lat, lon);
-        apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid="+Apikey;
+
+        apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + Apikey;
 
         fetch(apiURL).then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log("Weather Data: ", data);
+
                     currentWeatherDisplay(data);
                     forcastDisplay(data);
                     resultContailerEl.scrollIntoView({ behavior: "smooth" });
