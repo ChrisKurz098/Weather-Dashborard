@@ -177,7 +177,8 @@ function main() {
 
         let currentUviEl = document.createElement("li")
         currentUviEl.style.animation = "fade 1s"
-        currentUviEl.textContent = "UVI Index: " + data.current.uvi;
+        currentUviEl.innerHTML = "UVI Index: <span id = 'uviTx'>" + data.current.uvi + "<span>";
+
 
 
         document.querySelector(".largeIcon").remove();
@@ -186,10 +187,10 @@ function main() {
         icon.innerHTML = '<i class = "owf largeIcon col-even owf-' + (data.current.weather[0].id) + '"></i>';
         //this will change the color of the icon depeding on how cloudy it is
         let c = data.current.clouds;
-        if (c<5){
-        icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
-        }else {
-            icon.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
+        if (c < 5) {
+            icon.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + ((c * 2) + 55) + ")";
+        } else {
+            icon.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + (255 - c) + ")";
         }
 
         document.querySelector("#description").remove();
@@ -208,6 +209,27 @@ function main() {
         currentListEl.append(currentUviEl);
         currentTempDiv.append(icon);
         currentTempDiv.append(descript);
+        //Change color of UVI Index
+        let uviText = document.getElementById('uviTx');
+        uviText.style.padding = "0  0 2px 5px";
+        uviText.style.borderRadius = "25px";
+
+        switch (true) {
+            case (data.current.uvi <= 2):
+                uviText.style.backgroundColor = "grey"
+                break;
+            case (data.current.uvi >= 3):
+                uviText.style.backgroundColor = "green"
+                break;
+            case (data.current.uvi >= 6):
+                uviText.style.backgroundColor = "orange"
+                break;
+            case (data.current.uvi >= 8):
+                uviText.style.backgroundColor = "red"
+                break;
+        }
+
+
     }
 
     //this will capitalize each word in a string
@@ -251,11 +273,11 @@ function main() {
             iconEl.classList = "center";
             //this will change the color of the icon depeding on how cloudy it is
             let c = data.daily[i].clouds;
-            if (c<5){
-                iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + ((c * 2)+55) + ")";
-                }else {
-                    iconEl.style.color = "rgb(" + (255-c) + "," + (255 - c) + "," + (255-c) + ")";
-                }
+            if (c < 5) {
+                iconEl.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + ((c * 2) + 55) + ")";
+            } else {
+                iconEl.style.color = "rgb(" + (255 - c) + "," + (255 - c) + "," + (255 - c) + ")";
+            }
 
 
             let tempEl = document.createElement("li")
@@ -315,10 +337,10 @@ function main() {
                 cityDisplayEl.textContent = "Error getting response";
             }
         }) //errors are sent to the catch() method
-        .catch(function (error) {
-            // Notice this `.catch()` getting chained onto the end of the `.then()` method
-            cityDisplayEl.textContent = "Unable to connect to server";
-        });
+            .catch(function (error) {
+                // Notice this `.catch()` getting chained onto the end of the `.then()` method
+                cityDisplayEl.textContent = "Unable to connect to server";
+            });
 
     }
 
