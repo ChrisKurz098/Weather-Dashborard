@@ -218,13 +218,13 @@ function main() {
             case (data.current.uvi < 3):
                 uviText.style.backgroundColor = "grey"
                 break;
-            case (data.current.uvi >= 3):
+            case (data.current.uvi > 2):
                 uviText.style.backgroundColor = "green"
                 break;
-            case (data.current.uvi >= 6):
+            case (data.current.uvi > 5):
                 uviText.style.backgroundColor = "orange"
                 break;
-            case (data.current.uvi >= 8):
+            case (data.current.uvi > 7):
                 uviText.style.backgroundColor = "red"
                 break;
         }
