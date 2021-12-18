@@ -215,7 +215,7 @@ function main() {
         uviText.style.borderRadius = "25px";
 
         switch (true) {
-            case (data.current.uvi <= 2):
+            case (data.current.uvi < 3):
                 uviText.style.backgroundColor = "grey"
                 break;
             case (data.current.uvi >= 3):
